@@ -5,10 +5,24 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [notes, setNotes] = useState([]);
   const [content, setContent] = useState("");
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     fetchNotes();
   }, []);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("notes-theme");
+    if (savedTheme === "light" || savedTheme === "dark") {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  function toggleTheme() {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    localStorage.setItem("notes-theme", nextTheme);
+  }
 
   async function fetchNotes() {
     const res = await fetch("/api/notes");
@@ -36,11 +50,21 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 p-8">
+    <div className={`app-shell min-h-screen p-8 theme-${theme}`}>
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-yellow-400 mb-2">My Notes</h1>
-          <p className="text-gray-400">Create, Read, Update and delete your notes</p>
+        <div className="mb-8 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold app-title mb-2">My Notes</h1>
+            <p className="app-subtitle">Create, Read, Update and delete your notes</p>
+          </div>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            className="theme-toggle"
+          >
+            {theme === "dark" ? "Light mode" : "Dark mode"}
+          </button>
         </div>
         <form onSubmit={createNote} className="mb-8 space-y-4">
           <input
@@ -48,25 +72,25 @@ export default function Home() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"
-            className="w-full p-3 bg-gray-800 border border-gray-700 rounded text-white placeholder-gray-400"
+            className="note-input w-full p-3 border rounded"
           />
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Content"
-            className="w-full p-3 bg-gray-800 border border-gray-700 rounded text-white placeholder-gray-400 min-h-[100px]"
+            className="note-input w-full p-3 border rounded min-h-[100px]"
           />
-          <button type="submit" className="bg-yellow-400 text-gray-950 px-6 py-2 rounded font-semibold hover:bg-yellow-300">
+          <button type="submit" className="submit-button px-6 py-2 rounded font-semibold">
             Add Note
           </button>
         </form>
         <div className="space-y-4">
           {notes.map((note) => (
-            <div key={note._id} className="bg-gray-900 p-4 rounded border border-gray-700 flex justify-between items-start">
+            <div key={note._id} className="note-card p-4 rounded border flex justify-between items-start">
               <div>
-                <h3 className="text-xl font-semibold text-white">{note.title}</h3>
-                <p className="text-gray-300 mt-1">{note.content}</p>
-                <small className="text-gray-500">{new Date(note.createdAt).toLocaleString()}</small>
+                <h3 className="text-xl font-semibold note-title">{note.title}</h3>
+                <p className="note-content mt-1">{note.content}</p>
+                <small className="note-date">{new Date(note.createdAt).toLocaleString()}</small>
               </div>
               <button
                 onClick={() => deleteNote(note._id)}
@@ -76,7 +100,7 @@ export default function Home() {
               </button>
             </div>
           ))}
-          {notes.length === 0 && <p className="text-gray-500 text-center py-8">No notes yet. Create one above!</p>}
+          {notes.length === 0 && <p className="empty-state text-center py-8">No notes yet. Create one above!</p>}
         </div>
       </div>
     </div>

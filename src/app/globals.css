@@ -24,3 +24,89 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.app-shell {
+  --surface: #171717;
+  --surface-raised: #1f1f1f;
+  --border: #404040;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --accent: #facc15;
+  --accent-hover: #fde047;
+  --accent-text: #171717;
+  --danger: #f87171;
+  background: #0a0a0a;
+  color: var(--text);
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.app-shell.theme-light {
+  --surface: #ffffff;
+  --surface-raised: #f5f5f4;
+  --border: #d6d3d1;
+  --text: #1c1917;
+  --muted: #57534e;
+  --accent: #ca8a04;
+  --accent-hover: #a16207;
+  --accent-text: #ffffff;
+  --danger: #dc2626;
+  background: #fafaf9;
+}
+
+.app-title,
+.note-title {
+  color: var(--accent);
+}
+
+.app-subtitle,
+.note-date,
+.empty-state {
+  color: var(--muted);
+}
+
+.note-input {
+  border-color: var(--border);
+  background: var(--surface-raised);
+  color: var(--text);
+}
+
+.note-input::placeholder {
+  color: var(--muted);
+}
+
+.note-card {
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+.note-content {
+  color: var(--text);
+}
+
+.theme-toggle {
+  flex-shrink: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-raised);
+}
+
+.submit-button {
+  background: var(--accent);
+  color: var(--accent-text);
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background: var(--accent-hover);
+}
+
+.note-card button {
+  color: var(--danger);
+}
