@@ -1,5 +1,22 @@
 "use client"
+import {Poppins, Roboto_Mono} from "next/font/google";
 import { useState, useEffect } from "react";
+import localFont from "next/font/local";
+
+const roboto_mono = Roboto_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+})
+
+const chewyFont = localFont({
+  src: "../../public/Chewy-Regular.ttf"
+})
+
+const poppintFont = Poppins({
+  subsets: ['latin'],
+  weight: ["400", "700"],
+  display: 'swap',
+})
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -50,7 +67,7 @@ export default function Home() {
   }
 
   return (
-    <div className={`app-shell min-h-screen p-8 theme-${theme}`}>
+    <div className={`app-shell min-h-screen p-8 ${chewyFont.className}`}>
       <div className="max-w-4xl mx-auto">
         <div className="mb-8 flex items-start justify-between gap-4">
           <div>
